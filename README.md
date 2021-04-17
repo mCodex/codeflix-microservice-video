@@ -1,6 +1,6 @@
 # Codeflix Microservice Video
 
-A repository
+A repository from Fullcyle's course
 
 ## Running the application
 
