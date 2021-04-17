@@ -1,12 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
+
+    private $rules = [
+        'name' => 'required|max:255',
+        'description' => 'max:255',
+        'is_active' => 'boolean'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -14,17 +22,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Category::all();
     }
 
     /**
@@ -35,7 +33,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $this->validate($request, $this->rules);
+
+        return Category::create($request->all());
     }
 
     /**
@@ -46,18 +47,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
+        return $category;
     }
 
     /**
@@ -69,7 +59,10 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $this->validate($request, $this->rules);
+        $category->update($request->all());
+
+        return $category;
     }
 
     /**
@@ -80,6 +73,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return response()->noContent();
     }
 }
