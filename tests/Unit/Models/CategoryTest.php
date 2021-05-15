@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Models;
 
 use App\Models\Category;
 use PHPUnit\Framework\TestCase;
@@ -10,15 +10,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CategoryTest extends TestCase
 {
+
+    private $category;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->category = new Category();
+    }
+
     public function testFillableAttribute()
     {
 
         $fillable = ['name', 'description', 'is_active'];
-        $category = new Category();
 
         $this->assertEquals(
             $fillable,
-            $category->getFillable()
+            $this->category->getFillable()
         );
     }
 
@@ -37,21 +45,17 @@ class CategoryTest extends TestCase
     {
 
         $casts = ['id' => 'string'];
-        $category = new Category();
 
         $this->assertEquals(
             $casts,
-            $category->getCasts()
+            $this->category->getCasts()
         );
     }
 
     public function testIncrementingAttribute()
     {
-
-        $category = new Category();
-
         $this->assertFalse(
-            $category->incrementing
+            $this->category->incrementing
         );
     }
 
@@ -59,9 +63,8 @@ class CategoryTest extends TestCase
     {
         $dates = ['deleted_at', 'created_at', 'updated_at'];
 
-        $category = new Category();
 
-        $category_dates = $category->getDates();
+        $category_dates = $this->category->getDates();
 
         foreach ($dates as $date) {
             $this->assertContains($date, $category_dates);
