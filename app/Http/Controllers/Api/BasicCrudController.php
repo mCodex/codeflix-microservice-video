@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -10,12 +9,7 @@ abstract class BasicCrudController extends Controller
 {
 
     protected abstract function model();
-
-    private $rules = [
-        'name' => 'required|max:255',
-        'description' => 'max:255',
-        'is_active' => 'boolean'
-    ];
+    protected abstract function rulesStore();
 
     /**
      * Display a listing of the resource.
@@ -25,6 +19,11 @@ abstract class BasicCrudController extends Controller
     public function index()
     {
         return $this->model()::all();
+    }
+
+    public function store(Request $request)
+    {
+        $this->validate($request, $this->rulesStore());
     }
 
     // /**
