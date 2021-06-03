@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\CastMember;
 use App\Http\Controllers\Controller;
 
-class CastMemberController extends Controller
+class CastMemberController extends BasicCrudController
 {
 
     private $rules = [];

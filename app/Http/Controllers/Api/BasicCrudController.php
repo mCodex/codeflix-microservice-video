@@ -40,7 +40,7 @@ abstract class BasicCrudController extends Controller
         return $obj;
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $obj = $this->findOrFail($id);
         $obj->delete();
