@@ -6,6 +6,7 @@ use App\Models\Genre;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Ramsey\Uuid\Uuid;
+
 use Tests\TestCase;
 
 class GenreTest extends TestCase
