@@ -6,6 +6,7 @@ use App\Models\Category;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
+use Ramsey\Uuid\Uuid;
 
 class CategoryTest extends TestCase
 {
@@ -34,6 +35,8 @@ class CategoryTest extends TestCase
         $category->refresh();
 
         $this->assertEquals(36, strlen($category->id));
+        $this->assertTrue(Uuid::isValid($category->id));
+
         $this->assertEquals('test1', $category->name);
         $this->assertNull($category->description);
         $this->assertTrue($category->is_active);
