@@ -10,12 +10,8 @@ abstract class BasicCrudController extends Controller
 
     protected abstract function model();
     protected abstract function rulesStore();
+    protected abstract function rulesUpdate();
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return $this->model()::all();
@@ -23,60 +19,38 @@ abstract class BasicCrudController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, $this->rulesStore());
+        $validatedData = $this->validate($request, $this->rulesStore());
+        $obj = $this->model()::create($validatedData);
+        $obj->refresh();
+
+        return $obj;
     }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(Request $request)
-    // {
+    public function show($id)
+    {
+        $obj = $this->findOrFail($id);
+        return $obj;
+    }
 
-    //     $this->validate($request, $this->rules);
+    public function update(Request $request, $id)
+    {
+        $obj = $this->findOrFail($id);
+        $validatedData = $this->validate($request, $this->rulesUpdate());
+        $obj->update($validatedData);
+        return $obj;
+    }
 
-    //     $category = Category::create($request->all());
-    //     $category->refresh();
-    //     return $category;
-    // }
+    public function delete($id)
+    {
+        $obj = $this->findOrFail($id);
+        $obj->delete();
+        return response()->noContent();
+    }
 
-    // /**
-    //  * Display the specified resource.
-    //  *
-    //  * @param  \App\Models\Category  $category
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function show(Category $category)
-    // {
-    //     return $category;
-    // }
-
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  \App\Models\Category  $category
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(Request $request, Category $category)
-    // {
-    //     $this->validate($request, $this->rules);
-    //     $category->update($request->all());
-
-    //     return $category;
-    // }
-
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  \App\Models\Category  $category
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy(Category $category)
-    // {
-    //     $category->delete();
-    //     return response()->noContent();
-    // }
+    protected function findOrFail($id)
+    {
+        $model = $this->model();
+        $keyName = (new $model)->getRouteKeyName();
+        return $this->model()::where($keyName, $id)->firstOrFail();
+    }
 }
