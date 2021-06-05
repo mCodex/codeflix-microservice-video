@@ -2,9 +2,10 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Models\Category;
+use App\Models\Genre;
 use App\Models\Video;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\TestResponse;
 
 use Tests\TestCase;
 
@@ -16,19 +17,23 @@ class VideoControllerTest extends TestCase
     use DatabaseMigrations, TestValidations, TestSaves;
 
     private $video;
+
     private $sendData;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->video = factory(Video::class)->create();
+        $this->video = factory(Video::class)->create([
+            'opened' => false
+        ]);
+
         $this->sendData = [
             'title' => 'title',
             'description' => 'description',
             'year_launched' => 2010,
             'rating' => Video::RATING_LIST[0],
-            'duration' => 90,
+            'duration' => 90
         ];
     }
 
@@ -58,7 +63,9 @@ class VideoControllerTest extends TestCase
             'description' => '',
             'year_launched' => '',
             'rating' => '',
-            'duration' => ''
+            'duration' => '',
+            'categories_id' => '',
+            'genres_id' => ''
         ];
 
         $this->assertInvalidationInStoreAction($data, 'required');
@@ -95,6 +102,42 @@ class VideoControllerTest extends TestCase
         $this->assertInvalidationInUpdateAction($data, 'date_format', ['format' => 'Y']);
     }
 
+    public function testInvalidationCategoriesIdField()
+    {
+        $data = [
+            'categories_id' => 'a'
+        ];
+
+        $invalidIdsArray = [
+            'categories_id' => [200]
+        ];
+
+        $this->assertTableRelationship($data, $invalidIdsArray);
+    }
+
+    public function testInvalidationGenresIdField()
+    {
+        $data = [
+            'genres_id' => 'a'
+        ];
+
+        $invalidIdsArray = [
+            'genres_id' => [200]
+        ];
+
+        $this->assertTableRelationship($data, $invalidIdsArray);
+    }
+
+    private function assertTableRelationship($invalidArrayData, $invalidIdsArray)
+    {
+        $this->assertInvalidationInStoreAction($invalidArrayData, 'array');
+        $this->assertInvalidationInUpdateAction($invalidArrayData, 'array');
+
+        $this->assertInvalidationInStoreAction($invalidIdsArray, 'exists');
+        $this->assertInvalidationInUpdateAction($invalidIdsArray, 'exists');
+    }
+
+
     public function testInvalidationOpenedField()
     {
         $data = [
@@ -117,18 +160,26 @@ class VideoControllerTest extends TestCase
 
     public function testSave()
     {
+        $category = factory(Category::class)->create();
+        $genre = factory(Genre::class)->create();
+
+        $insertionData = $this->sendData + [
+            'categories_id' => [$category->id],
+            'genres_id' => [$genre->id]
+        ];
+
         $data = [
             [
-                'send_data' => $this->sendData,
-                'test_data' => $this->sendData + ['opened' => false]
+                'send_data' => $insertionData,
+                'test_data' => $insertionData + ['opened' => false]
             ],
             [
-                'send_data' => $this->sendData + ['opened' => true],
-                'test_data' => $this->sendData + ['opened' => true]
+                'send_data' => $insertionData + ['opened' => true],
+                'test_data' => $insertionData + ['opened' => true]
             ],
             [
-                'send_data' => $this->sendData + ['rating' => Video::RATING_LIST[1]],
-                'test_data' => $this->sendData + ['rating' => Video::RATING_LIST[1]]
+                'send_data' => $insertionData + ['rating' => Video::RATING_LIST[1]],
+                'test_data' => $insertionData + ['rating' => Video::RATING_LIST[1]]
             ],
         ];
 
