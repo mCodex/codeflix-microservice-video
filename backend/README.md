@@ -1,6 +1,4 @@
-# 🎥 Codeflix Microservice Video
-
-A repository from Fullcyle's course
+# Back-end
 
 ## 🏃‍♂️ Running the application
 
