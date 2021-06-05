@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Genre;
-use App\Http\Controllers\Controller;
 
 class GenreController extends BasicCrudController
 {
