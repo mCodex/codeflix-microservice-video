@@ -5,7 +5,7 @@ chown -R www-data:www-data .
 
 ### FRONT-END
 npm config set cache /var/www/.npm-cache --global
-cd /var/www/frontend && npm install && cd ..
+cd /var/www/frontend && yarn && cd ..
 
 ### BACK-END
 cd backend
