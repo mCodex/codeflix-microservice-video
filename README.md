@@ -1,21 +1,21 @@
 # 🎥 Codeflix Microservice Video
 
-A repository from Fullcyle's course
+A repository from Fullcyle's course.
 
-## 🏃‍♂️ Running the application
+This repository has 2 projects:
 
-You must have docker installed and running on your machine and then:
+- Back-end: Laravel which is the main API
+- Front-end: A NextJS project which is the application's front-end
 
-```bash
-$ docker-compose up -d
-```
+## Back-end
 
-and then:
+An API written using Laravel 6
 
-```
-http://localhost:8000
-```
+## Front-end
 
-## 📚 Docs
+A front-end application using NextJS and Typescript.
 
-There is a Insomnia's collection [here](./docs/Insomnia_2021-06-03.json) containing all endpoints and examples
+Some libraries that I used:
+
+- Styled-Components
+- Airbnb's ESlint
