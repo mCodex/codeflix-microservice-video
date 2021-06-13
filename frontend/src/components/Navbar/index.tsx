@@ -1,10 +1,20 @@
 import React from 'react';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { AppBar, Button, Toolbar, Typography } from '@material-ui/core';
+
+import useStyles from './useStyles';
 
 const Navbar: React.FC = () => {
+  const classes = useStyles();
+
   return (
     <AppBar>
-      <Toolbar>Hello</Toolbar>
+      <Toolbar className={classes.toolbar}>
+        <Typography className={classes.title}>
+          <img className={classes.logo} src="/logo.png" alt="CodeFlix" />
+        </Typography>
+
+        <Button color="inherit">Login</Button>
+      </Toolbar>
     </AppBar>
   );
 };

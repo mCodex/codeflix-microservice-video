@@ -5,7 +5,6 @@ This project is the front-end application for the same API which is available [h
 ## Libraries
 
 - NextJS
-- Styled-Components
 - Material UI
 
 ## 🏃‍♂️ Running
