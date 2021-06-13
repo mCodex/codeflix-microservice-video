@@ -2,6 +2,8 @@ import React from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
+import Navbar from '../src/components/Navbar';
+
 const RootApp = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <>
@@ -12,6 +14,9 @@ const RootApp = ({ Component, pageProps }: AppProps): JSX.Element => {
         />
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       </Head>
+
+      <Navbar />
+
       <Component {...pageProps} />
     </>
   );
