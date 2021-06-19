@@ -8,14 +8,18 @@ interface Props {
   title: string;
 }
 
-const Page: React.FC<Props> = ({ title }) => {
+const PageSkeleton: React.FC<Props> = ({ children, title }) => {
   const classes = useStyles();
 
   return (
     <Container>
-      <Typography className={classes.title}>{title}</Typography>
+      <Typography className={classes.title} component="h1" variant="h5">
+        {title}
+      </Typography>
+
+      {children}
     </Container>
   );
 };
 
-export default Page;
+export default PageSkeleton;

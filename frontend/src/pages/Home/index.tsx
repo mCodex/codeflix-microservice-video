@@ -1,12 +1,16 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import { Box } from '@material-ui/core';
+
+import Navbar from '../../components/Navbar';
+import PageSkeleton from '../../components/PageSkeleton';
 
 const Home: React.FC = () => {
   return (
     <>
-      <Button color="primary" variant="contained">
-        Button Text
-      </Button>
+      <Navbar />
+      <Box paddingTop="70px">
+        <PageSkeleton title="Categorias" />
+      </Box>
     </>
   );
 };
