@@ -1,12 +1,33 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { IconButton, Menu, MenuItem } from '@material-ui/core';
 import { Menu as MenuIcon } from '@material-ui/icons';
+import Link from 'next/link';
+
+import routes from '../../routes';
+
+const listRoutes = ['dashboard', 'categories.list'];
 
 const MenuComponent: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
+  const menuRoutes = useMemo(() => routes.filter((route) => listRoutes.includes(route.name)), []);
+
   const handleMenuOpen = useCallback((event) => setAnchorEl(event.currentTarget), []);
   const handleMenuClose = useCallback(() => setAnchorEl(null), []);
+
+  const renderMenuItem = useCallback(() => {
+    return listRoutes.map((routeName) => {
+      const route = menuRoutes.find((routeData) => routeData.name === routeName);
+
+      return (
+        <Link key={route?.name} passHref href={route?.path as string}>
+          <MenuItem  onClick={handleMenuClose}>
+            {route?.label}
+          </MenuItem>
+        </Link>
+      );
+    });
+  }, []);
 
   return (
     <>
@@ -30,7 +51,7 @@ const MenuComponent: React.FC = () => {
         transformOrigin={{ vertical: 'top', horizontal: 'center' }}
         getContentAnchorEl={null}
       >
-        <MenuItem onClick={handleMenuClose}>Categorias</MenuItem>
+        {renderMenuItem()}
       </Menu>
     </>
   );
