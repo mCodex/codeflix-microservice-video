@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import MaterialLink from '@material-ui/core/Link';
+import { Container } from '@material-ui/core';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import RouteParser from 'route-parser';
@@ -59,7 +60,9 @@ const Breadcrumb: React.FC = () => {
           </Typography>
         ) : (
           <Link passHref href={to} key={to}>
-            <MaterialLink color="inherit">{breadcrumbNameMap[parsedRoute]}</MaterialLink>
+            <MaterialLink color="inherit" className={classes.linkRouter}>
+              {breadcrumbNameMap[parsedRoute]}
+            </MaterialLink>
           </Link>
         );
       }),
@@ -67,9 +70,9 @@ const Breadcrumb: React.FC = () => {
   );
 
   return (
-    <div className={classes.root}>
+    <Container>
       <Breadcrumbs aria-label="breadcrumb">{renderBreadcrumbs()}</Breadcrumbs>
-    </div>
+    </Container>
   );
 };
 

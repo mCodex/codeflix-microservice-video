@@ -1,11 +1,15 @@
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
-    root: {
-      display: 'flex',
-      flexDirection: 'column',
-      width: 360,
+    linkRouter: {
+      color: '#4db5ab',
+      '&:focus, &:active': {
+        color: '#4db5ab',
+      },
+      '&:hover': {
+        color: '#055a52',
+      },
     },
   })
 );
