@@ -4,6 +4,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import MaterialLink from '@material-ui/core/Link';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import RouteParser from 'route-parser';
 
 import routes from '../../routes';
 
@@ -44,13 +45,21 @@ const Breadcrumb: React.FC = () => {
           .join('/')
           .replace('//', '/')}`;
 
+        const parsedRoute = Object.keys(breadcrumbNameMap).find((path) =>
+          new RouteParser(path).match(to)
+        );
+
+        if (!parsedRoute) {
+          return false;
+        }
+
         return last ? (
           <Typography color="textPrimary" key={to}>
-            {breadcrumbNameMap[to]}
+            {breadcrumbNameMap[parsedRoute]}
           </Typography>
         ) : (
           <Link passHref href={to} key={to}>
-            <MaterialLink color="inherit">{breadcrumbNameMap[to]}</MaterialLink>
+            <MaterialLink color="inherit">{breadcrumbNameMap[parsedRoute]}</MaterialLink>
           </Link>
         );
       }),

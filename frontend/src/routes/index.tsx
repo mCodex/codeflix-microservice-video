@@ -9,4 +9,9 @@ export default [
     label: 'Listar Categorias',
     path: '/categories',
   },
+  {
+    name: 'categories.edit',
+    label: 'Editar Categorias',
+    path: '/categories/:id/edit',
+  },
 ];
